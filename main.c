@@ -51,7 +51,8 @@ void main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
-
+    double yeux_impulsion ;
+    uint16_t yeux_distance ;
     while (1)
     {
         /* 
@@ -76,10 +77,35 @@ void main(void)
          *   uint16_t yeux_convertir_impulsion_vers_distance_mm(double largeur_impulsion_us)
          * 
          */
-        
-
+        yeux_start_mesure();
+        yeux_impulsion = yeux_get_largeur_impulsion_us();
+        yeux_distance = yeux_convertir_impulsion_vers_distance_mm(yeux_impulsion);
+      
+        if (yeux_distance < 100)
+        {   
+          for( int i = 0 ; i < 20 ; i++ )
+            {
+                IO_BUZZER_SetHigh();
+                DELAY_milliseconds(3);
+                IO_BUZZER_SetLow();
+                DELAY_milliseconds(3);
+            }
+        }
+        else
+        {  
+            for( int i = 0 ; i < 20 ; i++ )
+            {
+                IO_BUZZER_SetHigh();
+                DELAY_milliseconds(6);
+                IO_BUZZER_SetLow();
+                DELAY_milliseconds(6);
+            }
+        }
     }
+  
+           
 }
 /**
+ * 
  End of File
 */
